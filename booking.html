@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Забронировать тур • Кони Кыргызстана</title>
+    <meta name="description" content="Забронируйте конный тур по Кыргызстану. Выберите маршрут, дату и количество участников. Быстрое подтверждение и персональный гид.">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Inter:wght@300;400;500;600&display=swap');
+        body { font-family: 'Inter', system_ui, sans-serif; }
+        .heading-serif { font-family: 'Playfair Display', Georgia, serif; }
+        .nav-link:after { content: ''; position: absolute; width: 0; height: 2px; bottom: -2px; left: 0; background-color: #166534; transition: width 0.3s ease; }
+        .nav-link:hover:after { width: 100%; }
+        .form-input { transition: all 0.2s ease; }
+        .form-input:focus { outline: none; border-color: #166534; box-shadow: 0 0 0 3px rgba(22, 101, 52, 0.1); }
+        .success-modal { animation: popIn 0.35s cubic-bezier(0.34, 1.56, 0.64, 1); }
+        @keyframes popIn { from { transform: scale(0.7) translateY(30px); opacity: 0; } to { transform: scale(1) translateY(0); opacity: 1; } }
+        .confetti { position: fixed; z-index: 9999; pointer-events: none; }
+    </style>
+</head>
+<body class="bg-stone-50">
+    <!-- NAV -->
+    <nav class="bg-white border-b sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="flex justify-between items-center h-20">
+                <div class="flex items-center gap-x-3">
+                    <div class="w-11 h-11 bg-emerald-700 rounded-2xl flex items-center justify-center">
+                        <i class="fa-solid fa-horse text-white text-3xl"></i>
+                    </div>
+                    <div>
+                        <span class="font-bold text-3xl tracking-tighter">Кони</span>
+                        <span class="font-bold text-3xl tracking-tighter text-emerald-700">Кыргызстана</span>
+                    </div>
+                </div>
+                <div class="hidden md:flex items-center gap-x-8 text-sm font-medium">
+                    <a href="index.html" class="nav-link text-stone-700 hover:text-emerald-700">Главная</a>
+                    <a href="routes.html" class="nav-link text-stone-700 hover:text-emerald-700">Маршруты</a>
+                    <a href="booking.html" class="nav-link text-emerald-700 font-semibold">Забронировать</a>
+                    <a href="gallery.html" class="nav-link text-stone-700 hover:text-emerald-700">Галерея</a>
+                    <a href="about.html" class="nav-link text-stone-700 hover:text-emerald-700">О проекте</a>
+                    <a href="contact.html" class="nav-link text-stone-700 hover:text-emerald-700">Контакты</a>
+                </div>
+                <a href="routes.html" class="hidden md:inline-flex text-sm px-5 py-2 border border-emerald-700 text-emerald-700 hover:bg-emerald-50 rounded-3xl font-medium">Смотреть маршруты</a>
+                <button id="mobile-menu-btn" class="md:hidden w-11 h-11 flex items-center justify-center"><i class="fa-solid fa-bars text-xl"></i></button>
+            </div>
+        </div>
+        <div id="mobile-menu" class="hidden md:hidden px-6 py-4 bg-white border-t"></div>
+    </nav>
+
+    <div class="max-w-5xl mx-auto px-6 pt-10 pb-20">
+        <!-- HEADER -->
+        <div class="text-center mb-10" data-aos="fade-up">
+            <span class="px-4 py-1 bg-emerald-100 text-emerald-700 rounded-3xl text-xs font-bold tracking-widest">БРОНИРОВАНИЕ 2026</span>
+            <h1 class="text-6xl font-bold tracking-tighter heading-serif mt-3">Запишитесь на катание</h1>
+            <p class="text-xl text-stone-600 mt-3 max-w-md mx-auto">Выберите маршрут, удобную дату и мы свяжемся с вами в течение 2 часов</p>
+        </div>
+
+        <div class="grid lg:grid-cols-5 gap-8">
+            
+            <!-- FORM -->
+            <div class="lg:col-span-3 bg-white border border-stone-200 rounded-3xl p-8 md:p-10 shadow-sm">
+                <form id="booking-form" onsubmit="submitBooking(event)">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-6">
+                        
+                        <!-- Personal info -->
+                        <div class="md:col-span-2">
+                            <label class="block text-sm font-semibold mb-1.5 text-stone-700">Ваше имя и фамилия</label>
+                            <input type="text" id="fullName" required class="form-input w-full px-5 py-3.5 border border-stone-300 rounded-2xl text-lg" placeholder="Иван Иванов" value="Анна Смирнова">
+                        </div>
+                        
+                        <div>
+                            <label class="block text-sm font-semibold mb-1.5 text-stone-700">Телефон / WhatsApp</label>
+                            <input type="tel" id="phone" required class="form-input w-full px-5 py-3.5 border border-stone-300 rounded-2xl" placeholder="+996 555 12 34 56" value="+996 700 123 456">
+                        </div>
+                        
+                        <div>
+                            <label class="block text-sm font-semibold mb-1.5 text-stone-700">Email</label>
+                            <input type="email" id="email" required class="form-input w-full px-5 py-3.5 border border-stone-300 rounded-2xl" placeholder="you@example.com" value="anna.smirnova@gmail.com">
+                        </div>
+                        
+                        <!-- Route selection -->
+                        <div class="md:col-span-2">
+                            <label class="block text-sm font-semibold mb-1.5 text-stone-700">Выберите маршрут</label>
+                            <select id="route" required class="form-input w-full px-5 py-3.5 border border-stone-300 rounded-2xl text-lg bg-white">
+                                <option value="">— Выберите маршрут —</option>
+                                <option value="songkol">Сон-Коль — 7 дней (24 500 сом)</option>
+                                <option value="jeti-oguz">Жети-Огуз + Сказки — 5 дней (18 900 сом)</option>
+                                <option value="ala-archa">Ала-Арча — 3 дня (12 500 сом)</option>
+                                <option value="issyk-kul">Вокруг Иссык-Куля — 9 дней (31 000 сом)</option>
+                                <option value="day-ride">Однодневная прогулка (3 500 сом)</option>
+                                <option value="custom">Индивидуальный маршрут (по запросу)</option>
+                            </select>
+                        </div>
+                        
+                        <div>
+                            <label class="block text-sm font-semibold mb-1.5 text-stone-700">Дата начала тура</label>
+                            <input type="date" id="startDate" required class="form-input w-full px-5 py-3.5 border border-stone-300 rounded-2xl" value="2026-07-15">
+                        </div>
+                        
+                        <div>
+                            <label class="block text-sm font-semibold mb-1.5 text-stone-700">Количество дней / тип</label>
+                            <select id="duration" class="form-input w-full px-5 py-3.5 border border-stone-300 rounded-2xl bg-white">
+                                <option value="3">3 дня (короткий)</option>
+                                <option value="5">5 дней</option>
+                                <option value="7" selected>7 дней (классика)</option>
+                                <option value="9">9 дней</option>
+                                <option value="custom">Другой (укажите в комментарии)</option>
+                            </select>
+                        </div>
+                        
+                        <div>
+                            <label class="block text-sm font-semibold mb-1.5 text-stone-700">Количество участников</label>
+                            <div class="flex items-center border border-stone-300 rounded-2xl overflow-hidden">
+                                <button type="button" onclick="changeParticipants(-1)" class="px-5 py-3.5 text-2xl font-light text-stone-400 hover:text-stone-600 active:bg-stone-100 transition">-</button>
+                                <input type="number" id="participants" value="2" min="1" max="12" class="form-input w-full text-center border-x border-stone-300 py-3.5 text-xl font-semibold">
+                                <button type="button" onclick="changeParticipants(1)" class="px-5 py-3.5 text-2xl font-light text-stone-400 hover:text-stone-600 active:bg-stone-100 transition">+</button>
+                            </div>
+                        </div>
+                        
+                        <div>
+                            <label class="block text-sm font-semibold mb-1.5 text-stone-700">Ваш уровень верховой езды</label>
+                            <select id="level" required class="form-input w-full px-5 py-3.5 border border-stone-300 rounded-2xl bg-white">
+                                <option value="beginner">Новичок (никогда не ездил)</option>
+                                <option value="intermediate" selected>Средний (ездил несколько раз)</option>
+                                <option value="advanced">Опытный (регулярно езжу)</option>
+                                <option value="pro">Профессионал</option>
+                            </select>
+                        </div>
+                        
+                        <div class="md:col-span-2">
+                            <label class="block text-sm font-semibold mb-1.5 text-stone-700">Дополнительные пожелания или комментарии</label>
+                            <textarea id="comments" rows="3" class="form-input w-full px-5 py-3.5 border border-stone-300 rounded-2xl resize-y" placeholder="Есть ли дети? Нужна ли вегетарианская еда? Особые пожелания..."></textarea>
+                        </div>
+                    </div>
+                    
+                    <div class="mt-8 flex items-start gap-x-3">
+                        <input type="checkbox" id="agree" required class="mt-1.5 w-4 h-4 accent-emerald-700">
+                        <label for="agree" class="text-sm text-stone-600">Я согласен(а) с <a href="#" class="underline">правилами участия</a> и <a href="#" class="underline">политикой обработки персональных данных</a></label>
+                    </div>
+                    
+                    <button type="submit" 
+                            class="mt-8 w-full py-4 bg-emerald-700 hover:bg-emerald-800 active:bg-emerald-900 transition text-white font-bold text-lg rounded-3xl flex items-center justify-center gap-x-3 shadow-inner">
+                        <i class="fa-solid fa-paper-plane"></i>
+                        <span>Отправить заявку на бронирование</span>
+                    </button>
+                    
+                    <p class="text-center text-xs text-stone-500 mt-4">Мы свяжемся с вами в течение 2 часов для подтверждения и оплаты (30% предоплата)</p>
+                </form>
+            </div>
+            
+            <!-- SIDEBAR INFO -->
+            <div class="lg:col-span-2 space-y-6">
+                <div class="bg-white border border-stone-200 rounded-3xl p-7">
+                    <div class="font-bold mb-4 flex items-center gap-x-2"><i class="fa-solid fa-info-circle text-emerald-600"></i> <span>Что происходит после заявки?</span></div>
+                    <ol class="text-sm space-y-4 text-stone-600">
+                        <li class="flex gap-3"><span class="font-mono text-emerald-700 font-bold">1.</span> <span>Мы перезваниваем или пишем в WhatsApp</span></li>
+                        <li class="flex gap-3"><span class="font-mono text-emerald-700 font-bold">2.</span> <span>Подтверждаем наличие лошадей и гида</span></li>
+                        <li class="flex gap-3"><span class="font-mono text-emerald-700 font-bold">3.</span> <span>Вы вносите предоплату 30%</span></li>
+                        <li class="flex gap-3"><span class="font-mono text-emerald-700 font-bold">4.</span> <span>Получаете подробный план и список вещей</span></li>
+                    </ol>
+                </div>
+                
+                <div class="bg-emerald-900 text-white rounded-3xl p-7 text-sm">
+                    <div class="font-bold mb-3">Нужна помощь с выбором?</div>
+                    <p class="text-emerald-200">Напишите нам в Telegram или позвоните — мы подберём идеальный маршрут под ваши даты и уровень.</p>
+                    <a href="contact.html" class="mt-4 inline-block text-emerald-300 hover:text-white font-medium">Связаться с менеджером →</a>
+                </div>
+                
+                <div class="text-xs px-2 text-stone-500">
+                    Бесплатная отмена за 14 дней до начала тура.<br>
+                    Страховка и трансфер из Бишкека включены.
+                </div>
+            </div>
+        </div>
+        
+        <!-- TRUST  -->
+        <div class="mt-12 text-center">
+            <div class="flex justify-center gap-x-8 text-xs text-stone-500">
+                <div class="flex items-center gap-x-2"><i class="fa-solid fa-shield-halved"></i> <span>Страховка Allianz</span></div>
+                <div class="flex items-center gap-x-2"><i class="fa-solid fa-users"></i> <span>4 872 довольных клиента</span></div>
+                <div class="flex items-center gap-x-2"><i class="fa-solid fa-award"></i> <span>Топ-3 в Кыргызстане</span></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SUCCESS MODAL -->
+    <div id="success-modal" class="hidden fixed inset-0 bg-black/70 flex items-center justify-center z-[100] p-6">
+        <div class="success-modal bg-white rounded-3xl max-w-lg w-full p-9 text-center relative">
+            <button onclick="closeModal()" class="absolute top-6 right-6 text-stone-400 hover:text-stone-600"><i class="fa-solid fa-times text-2xl"></i></button>
+            
+            <div class="mx-auto w-20 h-20 bg-emerald-100 rounded-full flex items-center justify-center mb-6">
+                <i class="fa-solid fa-check text-emerald-600 text-5xl"></i>
+            </div>
+            
+            <h3 class="text-3xl font-bold tracking-tight">Заявка отправлена!</h3>
+            <p class="mt-3 text-stone-600">Спасибо, <span id="modal-name"></span>!<br>Мы уже работаем над вашей бронью.</p>
+            
+            <div class="my-7 bg-stone-50 rounded-2xl p-5 text-left text-sm">
+                <div class="font-semibold mb-3 text-emerald-700">Ваша бронь № <span id="booking-id" class="font-mono"></span></div>
+                <div id="modal-summary" class="space-y-1 text-stone-600"></div>
+            </div>
+            
+            <p class="text-sm text-stone-500">Наш менеджер свяжется с вами в течение 2 часов.<br>Проверьте WhatsApp и почту.</p>
+            
+            <div class="mt-8 flex gap-3 justify-center">
+                <button onclick="closeModal()" class="px-8 py-3 text-sm font-semibold border border-stone-300 rounded-2xl hover:bg-stone-50">Закрыть</button>
+                <a href="index.html" class="px-8 py-3 text-sm font-semibold bg-emerald-700 text-white rounded-2xl">На главную</a>
+            </div>
+        </div>
+    </div>
+
+    <footer class="bg-white border-t py-8 text-xs text-center text-stone-500">
+        Кони Кыргызстана © 2026 • Бронирование работает 24/7
+    </footer>
+
+    <script>
+        function initMobileMenu() {
+            const btn = document.getElementById('mobile-menu-btn');
+            const menu = document.getElementById('mobile-menu');
+            if (!btn || !menu) return;
+            btn.addEventListener('click', () => {
+                menu.classList.toggle('hidden');
+                menu.innerHTML = menu.classList.contains('hidden') ? '' : `
+                    <a href="index.html" class="block py-2">Главная</a>
+                    <a href="routes.html" class="block py-2">Маршруты</a>
+                    <a href="booking.html" class="block py-2 font-semibold text-emerald-700">Забронировать</a>
+                    <a href="gallery.html" class="block py-2">Галерея</a>
+                    <a href="about.html" class="block py-2">О проекте</a>
+                    <a href="contact.html" class="block py-2">Контакты</a>
+                `;
+            });
+        }
+        
+        function initAOS() { AOS.init({ duration: 600, once: true }); }
+        
+        // Pre-fill route from URL param
+        function prefillFromURL() {
+            const params = new URLSearchParams(window.location.search);
+            const routeParam = params.get('route');
+            if (!routeParam) return;
+            
+            const select = document.getElementById('route');
+            let valueToSet = '';
+            
+            if (routeParam === 'songkol') valueToSet = 'songkol';
+            else if (routeParam === 'jeti-oguz') valueToSet = 'jeti-oguz';
+            else if (routeParam === 'ala-archa') valueToSet = 'ala-archa';
+            else if (routeParam === 'issyk-kul') valueToSet = 'issyk-kul';
+            
+            if (valueToSet) {
+                select.value = valueToSet;
+                // Nice highlight
+                select.style.borderColor = '#166534';
+                setTimeout(() => { select.style.borderColor = ''; }, 1800);
+            }
+        }
+        
+        function changeParticipants(delta) {
+            const input = document.getElementById('participants');
+            let val = parseInt(input.value) || 2;
+            val = Math.max(1, Math.min(12, val + delta));
+            input.value = val;
+        }
+        
+        // Simple confetti
+        function launchConfetti() {
+            const colors = ['#166534', '#4ade80', '#f59e0b', '#166534'];
+            for (let i = 0; i < 80; i++) {
+                const conf = document.createElement('div');
+                conf.className = 'confetti';
+                conf.style.left = Math.random() * 100 + 'vw';
+                conf.style.top = '-20px';
+                conf.style.width = '9px';
+                conf.style.height = '9px';
+                conf.style.background = colors[Math.floor(Math.random()*colors.length)];
+                conf.style.borderRadius = Math.random() > 0.5 ? '50%' : '2px';
+                conf.style.opacity = Math.random() * 0.7 + 0.4;
+                conf.style.transform = `rotate(${Math.random()*360}deg)`;
+                document.body.appendChild(conf);
+                
+                const duration = Math.random() * 2800 + 2400;
+                const angle = Math.random() * 80 - 40;
+                
+                conf.animate([
+                    { transform: `translateY(0) rotate(0deg)`, opacity: conf.style.opacity },
+                    { transform: `translateY(${window.innerHeight + 100}px) rotate(${angle * 4}deg)`, opacity: 0 }
+                ], {
+                    duration: duration,
+                    easing: 'cubic-bezier(0.25, 0.1, 0.25, 1)'
+                }).onfinish = () => conf.remove();
+            }
+        }
+        
+        function submitBooking(e) {
+            e.preventDefault();
+            
+            const form = document.getElementById('booking-form');
+            const name = document.getElementById('fullName').value.trim();
+            const routeSelect = document.getElementById('route');
+            const routeText = routeSelect.options[routeSelect.selectedIndex].text;
+            const date = document.getElementById('startDate').value;
+            const participants = document.getElementById('participants').value;
+            const level = document.getElementById('level').options[document.getElementById('level').selectedIndex].text;
+            
+            // Generate fake booking ID
+            const bookingId = 'KG-' + Date.now().toString().slice(-8);
+            
+            // Fill modal
+            document.getElementById('modal-name').textContent = name.split(' ')[0];
+            document.getElementById('booking-id').textContent = bookingId;
+            
+            const summaryHTML = `
+                <div><span class="font-medium">Маршрут:</span> ${routeText}</div>
+                <div><span class="font-medium">Дата старта:</span> ${new Date(date).toLocaleDateString('ru-RU')}</div>
+                <div><span class="font-medium">Участников:</span> ${participants} человек</div>
+                <div><span class="font-medium">Уровень:</span> ${level}</div>
+            `;
+            document.getElementById('modal-summary').innerHTML = summaryHTML;
+            
+            // Show modal
+            document.getElementById('success-modal').classList.remove('hidden');
+            document.getElementById('success-modal').classList.add('flex');
+            
+            // Confetti!
+            setTimeout(launchConfetti, 280);
+            
+            // Save to localStorage (demo "my bookings")
+            const bookings = JSON.parse(localStorage.getItem('myBookings') || '[]');
+            bookings.unshift({
+                id: bookingId,
+                name: name,
+                route: routeText,
+                date: date,
+                participants: participants,
+                created: new Date().toISOString()
+            });
+            localStorage.setItem('myBookings', JSON.stringify(bookings.slice(0, 5))); // keep last 5
+            
+            // Optional: reset form
+            setTimeout(() => {
+                form.reset();
+            }, 1200);
+        }
+        
+        function closeModal() {
+            const modal = document.getElementById('success-modal');
+            modal.classList.remove('flex');
+            modal.classList.add('hidden');
+        }
+        
+        function init() {
+            initMobileMenu();
+            initAOS();
+            prefillFromURL();
+            
+            // Bonus: show previous bookings hint if any
+            const prev = localStorage.getItem('myBookings');
+            if (prev && JSON.parse(prev).length > 0) {
+                console.log('%c[Booking] У вас есть предыдущие брони в localStorage', 'color:#166534');
+            }
+        }
+        
+        window.onload = init;
+    </script>
+</body>
+</html>
