@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Галерея • Кони Кыргызстана</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Inter:wght@300;400;500;600&display=swap');
+        body { font-family: 'Inter', system_ui, sans-serif; }
+        .heading-serif { font-family: 'Playfair Display', Georgia, serif; }
+        .gallery-img { transition: transform .4s cubic-bezier(0.34,1.56,.64,1), box-shadow .3s ease; cursor: zoom-in; }
+        .gallery-img:hover { transform: scale(1.04); box-shadow: 0 25px 50px -12px rgb(0 0 0 / 0.3); }
+        .filter-btn { transition: all .2s ease; }
+        .filter-btn.active { background-color: #166534; color: white; border-color: #166534; }
+        .lightbox { animation: lightboxPop .25s ease forwards; }
+        @keyframes lightboxPop { from { opacity:0; transform:scale(0.92); } to { opacity:1; transform:scale(1); } }
+    </style>
+</head>
+<body class="bg-stone-50">
+    <!-- NAV -->
+    <nav class="bg-white border-b sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="flex justify-between h-20 items-center">
+                <div class="flex items-center gap-x-3">
+                    <div class="w-11 h-11 bg-emerald-700 rounded-2xl flex items-center justify-center"><i class="fa-solid fa-horse text-white text-3xl"></i></div>
+                    <div><span class="font-bold text-3xl tracking-tighter">Кони</span><span class="font-bold text-3xl tracking-tighter text-emerald-700">Кыргызстана</span></div>
+                </div>
+                <div class="hidden md:flex gap-x-8 text-sm font-medium">
+                    <a href="index.html" class="nav-link text-stone-700 hover:text-emerald-700">Главная</a>
+                    <a href="routes.html" class="nav-link text-stone-700 hover:text-emerald-700">Маршруты</a>
+                    <a href="booking.html" class="nav-link text-stone-700 hover:text-emerald-700">Забронировать</a>
+                    <a href="gallery.html" class="nav-link text-emerald-700 font-semibold">Галерея</a>
+                    <a href="about.html" class="nav-link text-stone-700 hover:text-emerald-700">О проекте</a>
+                    <a href="contact.html" class="nav-link text-stone-700 hover:text-emerald-700">Контакты</a>
+                </div>
+                <a href="booking.html" class="hidden md:block px-6 py-2.5 bg-emerald-700 text-white rounded-3xl text-sm font-semibold">Забронировать тур</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="max-w-7xl mx-auto px-6 pt-12 pb-20">
+        <!-- 1. INTRO -->
+        <div class="text-center mb-10">
+            <span class="text-xs font-bold tracking-[2px] bg-emerald-100 text-emerald-700 px-4 py-1 rounded-3xl">ФОТО И ВИДЕО С ТУРОВ</span>
+            <h1 class="text-6xl font-bold heading-serif tracking-tighter mt-4">Моменты, которые<br>остаются в сердце</h1>
+            <p class="max-w-md mx-auto mt-4 text-stone-600">Реальные фотографии и короткие видео с наших конных экспедиций по Кыргызстану</p>
+        </div>
+
+        <!-- 2. FILTERS -->
+        <div class="flex flex-wrap gap-2 mb-8 justify-center">
+            <button onclick="filterGallery('all')" class="filter-btn active px-6 py-2 text-sm font-medium border border-emerald-700 rounded-3xl" data-filter="all">Все</button>
+            <button onclick="filterGallery('mountains')" class="filter-btn px-6 py-2 text-sm font-medium border border-stone-300 hover:border-emerald-700 rounded-3xl" data-filter="mountains">Горы</button>
+            <button onclick="filterGallery('horses')" class="filter-btn px-6 py-2 text-sm font-medium border border-stone-300 hover:border-emerald-700 rounded-3xl" data-filter="horses">Лошади</button>
+            <button onclick="filterGallery('lakes')" class="filter-btn px-6 py-2 text-sm font-medium border border-stone-300 hover:border-emerald-700 rounded-3xl" data-filter="lakes">Озёра</button>
+            <button onclick="filterGallery('culture')" class="filter-btn px-6 py-2 text-sm font-medium border border-stone-300 hover:border-emerald-700 rounded-3xl" data-filter="culture">Культура</button>
+            <button onclick="filterGallery('people')" class="filter-btn px-6 py-2 text-sm font-medium border border-stone-300 hover:border-emerald-700 rounded-3xl" data-filter="people">Люди и приключения</button>
+        </div>
+
+        <!-- 3. GALLERY GRID -->
+        <div id="gallery-grid" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+            <!-- Populated by JS -->
+        </div>
+
+        <!-- 4. STORIES BEHIND PHOTOS -->
+        <div class="mt-16">
+            <h3 class="font-bold text-3xl mb-8 text-center">Истории за кадром</h3>
+            <div class="grid md:grid-cols-3 gap-6 text-sm">
+                <div class="bg-white p-7 rounded-3xl border">
+                    <div class="font-semibold mb-1">«Первый раз на Сон-Коле»</div>
+                    <p class="text-stone-600">Утром 4 июля мы поднялись на перевал и увидели озеро, затянутое лёгким туманом. Лошади остановились сами — будто тоже хотели насладиться моментом.</p>
+                    <div class="text-xs mt-4 text-emerald-700">— Гид Эркин, 47 туров</div>
+                </div>
+                <div class="bg-white p-7 rounded-3xl border">
+                    <div class="font-semibold mb-1">«Девочка и её Ак-Боз»</div>
+                    <p class="text-stone-600">12-летняя Алия из Алматы впервые села на лошадь. К концу тура она уже сама седлала своего любимого Ак-Боза и называла его «лучшим другом».</p>
+                    <div class="text-xs mt-4 text-emerald-700">— Маршрут Жети-Огуз, август 2025</div>
+                </div>
+                <div class="bg-white p-7 rounded-3xl border">
+                    <div class="font-semibold mb-1">«Ночь у костра»</div>
+                    <p class="text-stone-600">После долгого перехода мы сидели у костра. Старший пастух рассказал легенду о том, как Тянь-Шань подарил людям лошадей. Никто не хотел идти спать.</p>
+                    <div class="text-xs mt-4 text-emerald-700">— Сон-Коль, июль 2025</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 5. VIDEO MOMENTS -->
+        <div class="mt-16">
+            <h3 class="font-bold text-3xl mb-6 text-center">Короткие видео с маршрутов</h3>
+            <div class="grid md:grid-cols-3 gap-5">
+                <div class="aspect-video bg-stone-900 rounded-3xl flex items-center justify-center relative overflow-hidden group cursor-pointer" onclick="showVideoModal()">
+                    <img src="https://picsum.photos/seed/video1/800/450" class="absolute inset-0 w-full h-full object-cover opacity-70 group-hover:opacity-50 transition">
+                    <div class="relative z-10 text-center text-white">
+                        <i class="fa-solid fa-play text-5xl mb-2 opacity-90"></i>
+                        <div class="text-sm font-medium">Восход на Сон-Коле</div>
+                        <div class="text-[10px] opacity-75">1:24 • 124k просмотров</div>
+                    </div>
+                </div>
+                <div class="aspect-video bg-stone-900 rounded-3xl flex items-center justify-center relative overflow-hidden group cursor-pointer" onclick="showVideoModal()">
+                    <img src="https://picsum.photos/seed/video2/800/450" class="absolute inset-0 w-full h-full object-cover opacity-70 group-hover:opacity-50 transition">
+                    <div class="relative z-10 text-center text-white">
+                        <i class="fa-solid fa-play text-5xl mb-2 opacity-90"></i>
+                        <div class="text-sm font-medium">Табун на фоне красных скал</div>
+                        <div class="text-[10px] opacity-75">0:47 • Жети-Огуз</div>
+                    </div>
+                </div>
+                <div class="aspect-video bg-stone-900 rounded-3xl flex items-center justify-center relative overflow-hidden group cursor-pointer" onclick="showVideoModal()">
+                    <img src="https://picsum.photos/seed/video3/800/450" class="absolute inset-0 w-full h-full object-cover opacity-70 group-hover:opacity-50 transition">
+                    <div class="relative z-10 text-center text-white">
+                        <i class="fa-solid fa-play text-5xl mb-2 opacity-90"></i>
+                        <div class="text-sm font-medium">Дети и лошади — лучшие друзья</div>
+                        <div class="text-[10px] opacity-75">2:11 • Ала-Арча</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- LIGHTBOX MODAL -->
+    <div id="lightbox" onclick="closeLightbox()" class="hidden fixed inset-0 bg-black/90 z-[200] flex items-center justify-center p-6">
+        <div onclick="event.stopImmediatePropagation()" class="max-w-5xl w-full">
+            <img id="lightbox-img" class="max-h-[82vh] w-auto mx-auto rounded-2xl shadow-2xl" alt="">
+            <div class="text-center mt-4 text-white">
+                <div id="lightbox-caption" class="text-lg font-medium"></div>
+                <div id="lightbox-meta" class="text-xs text-white/60 mt-1"></div>
+            </div>
+            <button onclick="closeLightbox()" class="absolute top-8 right-8 text-white/70 hover:text-white text-4xl">×</button>
+        </div>
+    </div>
+
+    <footer class="bg-stone-900 text-stone-400 py-9 text-xs text-center">
+        Все фото сделаны нашими гидами и участниками туров. © Кони Кыргызстана
+    </footer>
+
+    <script>
+        const photos = [
+            { id: 1, src: "https://picsum.photos/id/1018/800/800", category: "mountains", caption: "Туманное утро в Ала-Арче", meta: "Июнь 2025 • Гид: Азамат" },
+            { id: 2, src: "https://picsum.photos/id/201/800/800", category: "horses", caption: "Ак-Боз — наш самый спокойный конь", meta: "Сон-Коль, июль 2025" },
+            { id: 3, src: "https://picsum.photos/id/1005/800/800", category: "mountains", caption: "Перевал перед Сон-Колем", meta: "Высота 3580 м" },
+            { id: 4, src: "https://picsum.photos/id/251/800/800", category: "horses", caption: "Табун у юртового лагеря", meta: "Жети-Огуз" },
+            { id: 5, src: "https://picsum.photos/id/1033/800/800", category: "lakes", caption: "Сон-Коль на рассвете", meta: "Самое красивое озеро Тянь-Шаня" },
+            { id: 6, src: "https://picsum.photos/id/160/800/800", category: "culture", caption: "Ужин в юрте: кумыс и бесбармак", meta: "Традиции номадов живы" },
+            { id: 7, src: "https://picsum.photos/id/29/800/800", category: "people", caption: "Семья из Германии на маршруте", meta: "Ала-Арча, август" },
+            { id: 8, src: "https://picsum.photos/id/133/800/800", category: "horses", caption: "Лошадь и горы — вечная дружба", meta: "Иссык-Куль 2025" },
+            { id: 9, src: "https://picsum.photos/id/1040/800/800", category: "mountains", caption: "Снежные вершины над лагерем", meta: "Пик Учитель, 4200 м" },
+            { id: 10, src: "https://picsum.photos/id/180/800/800", category: "lakes", caption: "Отражение неба в Иссык-Куле", meta: "Северный берег" },
+            { id: 11, src: "https://picsum.photos/id/1009/800/800", category: "people", caption: "Улыбки после долгого перехода", meta: "Жети-Огуз" },
+            { id: 12, src: "https://picsum.photos/id/1036/800/800", category: "culture", caption: "Игра в кок-бору на лошадях", meta: "Национальный праздник" },
+            { id: 13, src: "https://picsum.photos/id/1016/800/800", category: "horses", caption: "Готовность к переходу", meta: "Утро в горах" },
+            { id: 14, src: "https://picsum.photos/id/106/800/800", category: "mountains", caption: "Тропа над облаками", meta: "Сон-Коль" },
+            { id: 15, src: "https://picsum.photos/id/251/800/800", category: "horses", caption: "Молодой жеребец", meta: "Пастбища у Жети-Огуз" },
+        ];
+
+        function renderGallery(filteredPhotos = photos) {
+            const grid = document.getElementById('gallery-grid');
+            grid.innerHTML = '';
+            
+            filteredPhotos.forEach(photo => {
+                const div = document.createElement('div');
+                div.className = `group relative overflow-hidden rounded-3xl aspect-square bg-stone-200`;
+                div.innerHTML = `
+                    <img src="${photo.src}" class="gallery-img w-full h-full object-cover" alt="${photo.caption}">
+                    <div class="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/70 to-transparent p-4 text-white opacity-0 group-hover:opacity-100 transition">
+                        <div class="font-medium text-sm line-clamp-2">${photo.caption}</div>
+                        <div class="text-[10px] text-white/70 mt-0.5">${photo.meta}</div>
+                    </div>
+                `;
+                div.onclick = () => openLightbox(photo);
+                grid.appendChild(div);
+            });
+        }
+
+        function filterGallery(category) {
+            document.querySelectorAll('.filter-btn').forEach(btn => {
+                btn.classList.remove('active', 'border-emerald-700');
+                btn.classList.add('border-stone-300');
+                if (category === 'all' && btn.dataset.filter === 'all') {
+                    btn.classList.add('active', 'border-emerald-700');
+                    btn.classList.remove('border-stone-300');
+                } else if (btn.dataset.filter === category) {
+                    btn.classList.add('active', 'border-emerald-700');
+                    btn.classList.remove('border-stone-300');
+                }
+            });
+            
+            let filtered = photos;
+            if (category !== 'all') {
+                filtered = photos.filter(p => p.category === category);
+            }
+            renderGallery(filtered);
+        }
+
+        let currentLightboxPhoto = null;
+
+        function openLightbox(photo) {
+            currentLightboxPhoto = photo;
+            const modal = document.getElementById('lightbox');
+            const img = document.getElementById('lightbox-img');
+            const caption = document.getElementById('lightbox-caption');
+            const meta = document.getElementById('lightbox-meta');
+            
+            img.src = photo.src;
+            caption.textContent = photo.caption;
+            meta.textContent = photo.meta;
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+        }
+
+        function closeLightbox() {
+            const modal = document.getElementById('lightbox');
+            modal.classList.remove('flex');
+            modal.classList.add('hidden');
+        }
+
+        function showVideoModal() {
+            alert('В реальной версии здесь будет встроенное видео с YouTube или Vimeo. Спасибо за интерес к нашим приключениям!');
+        }
+
+        function initAOS() { AOS.init({ duration: 650, once: true }); }
+
+        function init() {
+            renderGallery();
+            initAOS();
+            
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape') {
+                    const modal = document.getElementById('lightbox');
+                    if (!modal.classList.contains('hidden')) closeLightbox();
+                }
+            });
+            
+            console.log('%c[Gallery] Добро пожаловать в галерею Кони Кыргызстана!', 'color:#166534');
+        }
+
+        window.onload = init;
+    </script>
+</body>
+</html>
