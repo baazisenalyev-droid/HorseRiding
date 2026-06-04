@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Контакты • Кони Кыргызстана</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Inter:wght@300;400;500;600&display=swap');
+        body { font-family: 'Inter', system_ui, sans-serif; }
+        .heading-serif { font-family: 'Playfair Display', Georgia, serif; }
+    </style>
+</head>
+<body class="bg-stone-50">
+    <nav class="bg-white border-b sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-6 flex justify-between items-center h-20">
+            <div class="flex items-center gap-x-3">
+                <div class="w-11 h-11 bg-emerald-700 rounded-2xl flex items-center justify-center"><i class="fa-solid fa-horse text-white text-3xl"></i></div>
+                <div><span class="font-bold text-3xl tracking-tighter">Кони</span><span class="font-bold text-3xl tracking-tighter text-emerald-700">Кыргызстана</span></div>
+            </div>
+            <div class="hidden md:flex gap-x-8 text-sm font-medium">
+                <a href="index.html" class="nav-link text-stone-700 hover:text-emerald-700">Главная</a>
+                <a href="routes.html" class="nav-link text-stone-700 hover:text-emerald-700">Маршруты</a>
+                <a href="booking.html" class="nav-link text-stone-700 hover:text-emerald-700">Забронировать</a>
+                <a href="gallery.html" class="nav-link text-stone-700 hover:text-emerald-700">Галерея</a>
+                <a href="about.html" class="nav-link text-stone-700 hover:text-emerald-700">О проекте</a>
+                <a href="contact.html" class="nav-link text-emerald-700 font-semibold">Контакты</a>
+            </div>
+            <a href="booking.html" class="hidden md:inline-flex px-6 py-2.5 bg-emerald-700 text-white text-sm font-semibold rounded-3xl">Забронировать тур</a>
+        </div>
+    </nav>
+
+    <div class="max-w-5xl mx-auto px-6 pt-12 pb-16">
+        <div class="text-center mb-12">
+            <h1 class="text-6xl font-bold heading-serif tracking-tighter">Свяжитесь с нами</h1>
+            <p class="mt-3 text-xl text-stone-600">Мы всегда на связи и рады помочь вам спланировать идеальное приключение</p>
+        </div>
+
+        <div class="grid md:grid-cols-5 gap-8">
+            <!-- Contact Form -->
+            <div class="md:col-span-3 bg-white border border-stone-200 rounded-3xl p-9">
+                <h3 class="font-bold text-2xl mb-6">Напишите нам</h3>
+                <form onsubmit="submitContactForm(event)">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+                        <div>
+                            <label class="text-sm font-medium">Имя</label>
+                            <input type="text" required class="mt-1.5 w-full border border-stone-300 rounded-2xl px-5 py-3 form-input" placeholder="Ваше имя">
+                        </div>
+                        <div>
+                            <label class="text-sm font-medium">Телефон / WhatsApp</label>
+                            <input type="tel" required class="mt-1.5 w-full border border-stone-300 rounded-2xl px-5 py-3 form-input" placeholder="+996 ...">
+                        </div>
+                    </div>
+                    <div class="mt-5">
+                        <label class="text-sm font-medium">Email</label>
+                        <input type="email" required class="mt-1.5 w-full border border-stone-300 rounded-2xl px-5 py-3 form-input" placeholder="email@example.com">
+                    </div>
+                    <div class="mt-5">
+                        <label class="text-sm font-medium">Сообщение или вопрос</label>
+                        <textarea required rows="5" class="mt-1.5 w-full border border-stone-300 rounded-2xl px-5 py-3 form-input resize-y" placeholder="Хочу узнать про маршрут Сон-Коль на июль..."></textarea>
+                    </div>
+                    <button type="submit" class="mt-6 w-full py-4 bg-emerald-700 hover:bg-emerald-800 text-white font-semibold rounded-3xl">Отправить сообщение</button>
+                </form>
+            </div>
+
+            <!-- Info -->
+            <div class="md:col-span-2 space-y-6">
+                <div class="bg-white border border-stone-200 rounded-3xl p-7">
+                    <div class="font-bold mb-4">Контактная информация</div>
+                    <div class="space-y-4 text-sm">
+                        <div class="flex gap-x-4"><i class="fa-solid fa-phone w-5 mt-0.5 text-emerald-700"></i> <div>+996 555 123 456<br><span class="text-xs text-stone-500">WhatsApp / Telegram</span></div></div>
+                        <div class="flex gap-x-4"><i class="fa-solid fa-envelope w-5 mt-0.5 text-emerald-700"></i> <div>hello@konikyrgyzstan.kg</div></div>
+                        <div class="flex gap-x-4"><i class="fa-solid fa-map-marker-alt w-5 mt-0.5 text-emerald-700"></i> <div>Бишкек, ул. Токтогула, 89<br>Офис работает 08:00–20:00</div></div>
+                    </div>
+                </div>
+
+                <div class="bg-emerald-900 text-white rounded-3xl p-7 text-sm">
+                    <div class="font-bold mb-2">Быстрый ответ</div>
+                    <p class="text-emerald-200">Напишите нам в Telegram или WhatsApp — ответим в течение 15 минут в рабочее время.</p>
+                    <div class="mt-5 flex gap-x-3">
+                        <a href="#" class="flex-1 text-center py-2.5 bg-white/10 hover:bg-white/20 rounded-2xl text-xs font-medium">Открыть Telegram</a>
+                        <a href="#" class="flex-1 text-center py-2.5 bg-white/10 hover:bg-white/20 rounded-2xl text-xs font-medium">Открыть WhatsApp</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- FAQ -->
+        <div class="mt-14">
+            <h3 class="font-bold text-2xl mb-6">Часто задаваемые вопросы</h3>
+            <div class="space-y-3 text-sm">
+                <details class="bg-white border border-stone-200 rounded-2xl p-5 group">
+                    <summary class="font-medium cursor-pointer flex justify-between">Нужно ли иметь опыт верховой езды?<i class="fa-solid fa-chevron-down group-open:rotate-180 transition ml-auto"></i></summary>
+                    <p class="mt-3 text-stone-600">Нет. У нас есть маршруты для новичков. Мы проводим инструктаж и даём спокойных, обученных лошадей.</p>
+                </details>
+                <details class="bg-white border border-stone-200 rounded-2xl p-5 group">
+                    <summary class="font-medium cursor-pointer flex justify-between">Какая погода на маршрутах?<i class="fa-solid fa-chevron-down group-open:rotate-180 transition ml-auto"></i></summary>
+                    <p class="mt-3 text-stone-600">Летом в горах +15…+25°C днём, ночью может быть холодно. Мы предоставляем тёплые спальники и советуем правильную одежду.</p>
+                </details>
+                <details class="bg-white border border-stone-200 rounded-2xl p-5 group">
+                    <summary class="font-medium cursor-pointer flex justify-between">Можно ли поехать с детьми?<i class="fa-solid fa-chevron-down group-open:rotate-180 transition ml-auto"></i></summary>
+                    <p class="mt-3 text-stone-600">Да, на лёгких маршрутах (Ала-Арча, Жети-Огуз) дети от 8–10 лет. На Сон-Коль — от 12 лет.</p>
+                </details>
+            </div>
+        </div>
+    </div>
+
+    <footer class="bg-stone-900 py-8 text-center text-xs text-stone-400">© 2026 Кони Кыргызстана • Бишкек, Кыргызстан</footer>
+
+    <script>
+        function submitContactForm(e) {
+            e.preventDefault();
+            const btn = e.target.querySelector('button');
+            const originalText = btn.innerHTML;
+            btn.innerHTML = '<i class="fa-solid fa-check mr-2"></i> Отправлено!';
+            btn.disabled = true;
+            
+            setTimeout(() => {
+                alert('Спасибо! Ваше сообщение получено. Мы ответим в ближайшее время.');
+                e.target.reset();
+                btn.innerHTML = originalText;
+                btn.disabled = false;
+            }, 1400);
+        }
+        
+        console.log('%c[Contact] Страница контактов загружена', 'color:#166534');
+    </script>
+</body>
+</html>
